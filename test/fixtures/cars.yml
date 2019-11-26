@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: valid
+  state: new
+  status: available
+  price: 1.5
+  manufacturer: MyString
+  model: MyString
+  body_type: one
+
+two:
+  user: valid
+  state: used
+  status: available
+  price: 1.5
+  manufacturer: MyString
+  model: MyString
+  body_type: one

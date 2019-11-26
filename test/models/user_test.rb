@@ -9,23 +9,23 @@ class UserTest < ActiveSupport::TestCase
     assert @user.valid?
   end
 
-  test "should not save User without first_name last_name" do
+  test "should not be valid without first_name last_name" do
     @user.first_name = nil
     @user.first_name = nil
     refute @user.valid?
   end
 
-  test "invalid without email" do
+  test "should not be valid without email" do
     @user.email = nil
     refute @user.valid?
-    assert_not_nil @user.errors[:email]
+    refute_nil @user.errors[:email]
   end
 
-  test 'the association with cars' do
-    assert_equal 2, @user.cars.size
+  test 'that user has many cars' do
+    assert @user.respond_to?(:cars)
   end
 
-  test 'the association with orders' do
-    assert_equal 2, @user.orders.size
+  test 'that user has many orders' do
+    assert @user.respond_to?(:orders)
   end
 end
