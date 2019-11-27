@@ -10,16 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_25_134413) do
+ActiveRecord::Schema.define(version: 2019_11_26_175342) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "body_types", force: :cascade do |t|
-    t.string "title"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
 
   create_table "cars", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -56,7 +50,6 @@ ActiveRecord::Schema.define(version: 2019_11_25_134413) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  add_foreign_key "cars", "body_types"
   add_foreign_key "cars", "users"
   add_foreign_key "orders", "cars"
   add_foreign_key "orders", "users"

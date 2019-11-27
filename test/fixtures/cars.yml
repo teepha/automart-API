@@ -7,7 +7,7 @@ one:
   price: 1.5
   manufacturer: MyString
   model: MyString
-  body_type: one
+  body_type: car
 
 two:
   user: valid
@@ -16,4 +16,4 @@ two:
   price: 1.5
   manufacturer: MyString
   model: MyString
-  body_type: one
+  body_type: bus
