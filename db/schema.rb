@@ -24,7 +24,6 @@ ActiveRecord::Schema.define(version: 2019_11_26_175342) do
     t.string "model"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "body_type_id"
     t.index ["user_id"], name: "index_cars_on_user_id"
   end
 
