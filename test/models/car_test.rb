@@ -1,30 +1,36 @@
 require 'test_helper'
 
 class CarTest < ActiveSupport::TestCase
-  def setup
-    @car = cars(:two)
-  end
+  describe Car do
+    before do
+      @user = User.create(first_name: "First", last_name: "User", 
+                      email: "first@user.com", password: "password")
+    end
+    let(:car_params){{ user: @user, state: "used", status: "available", price: 1.5,
+                      manufacturer: "MyString", model: "MyString", body_type: "bus" }}
+    let(:car){ Car.new car_params }
 
-  test "should be valid" do
-    assert @car.valid?
-  end
+    it "is valid with valid parameters" do
+      assert car.valid?
+    end
 
-  test "should not be valid without price" do
-    @car.price = nil
-    refute @car.save
-  end
+    it "is invalid without price" do
+      car.price = nil
+      refute car.save
+    end
 
-  test "should not be valid without state and status" do
-    @car.state = nil
-    @car.status = nil
-    refute @car.save
-  end
+    it "is invalid without state and status" do
+      car.state = nil
+      car.status = nil
+      refute car.save
+    end
 
-  test 'that car belongs to user' do
-    assert @car.respond_to?(:user)
-  end
+    it 'verifies cars association with user' do
+      assert car.respond_to?(:user)
+    end
 
-  test 'that car has many orders' do
-    assert @car.respond_to?(:orders)
+    it 'verifies car association with orders' do
+      assert car.respond_to?(:orders)
+    end
   end
 end

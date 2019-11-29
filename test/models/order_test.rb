@@ -1,24 +1,30 @@
 require 'test_helper'
 
 class OrderTest < ActiveSupport::TestCase
-  def setup
-    @order = orders(:one)
-  end
+  describe Order do
+    before do
+      @user = User.create(first_name: "First", last_name: "User", 
+                      email: "first@user.com", password: "password")
+      @car = Car.create(user: @user, state: "used", status: "available", price: 1.5,
+                      manufacturer: "MyString", model: "MyString", body_type: "bus")
+    end
+    let(:order){ Order.new({ user: @user, car: @car, amount: 1.5, status: "pending" }) }
 
-  test "should not be valid without an amount" do
-    @order.amount = nil
-    refute @order.valid?
-  end
+    it "is invalid without an amount" do
+      order.amount = nil
+      refute order.valid?
+    end
 
-  test "should be valid" do
-    assert @order.valid?
-  end
+    it "is valid with valid parameters" do
+      assert order.valid?
+    end
 
-  test 'that order belongs to user' do
-    assert @order.respond_to?(:user)
-  end
+    it 'verifies that order belongs to user' do
+      assert order.respond_to?(:user)
+    end
 
-  test 'that order belongs to car' do
-    assert @order.respond_to?(:car)
+    it 'verifies that order belongs to car' do
+      assert order.respond_to?(:car)
+    end
   end
 end
