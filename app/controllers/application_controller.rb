@@ -10,4 +10,12 @@ class ApplicationController < ActionController::API
   def authorize_request
     @current_user = (AuthorizeApiRequest.new(request.headers).call)[:user]
   end
+
+  def is_mine?(obj)
+    obj[:user_id] == current_user.id
+  end
+
+  def is_admin?
+    current_user.is_admin
+  end
 end

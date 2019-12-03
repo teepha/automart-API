@@ -2,11 +2,9 @@ require 'test_helper'
 
 class LoginUsersTest < ActionDispatch::IntegrationTest
   describe User do
-    before do
-      User.create(first_name: "First", last_name: "User", 
-                      email: "first@user.com", password: "password")
-    end
-    let(:valid_params) {{email: "first@user.com", password: "password"}}
+    let(:user){ User.create(first_name: "First", last_name: "User", 
+                      email: "first@user.com", password: "password") }
+    let(:valid_params) {{email: user.email, password: "password"}}
     let(:invalid_params) {{email: "test2@user.com", password: "password"}}
 
     it "can login a user" do

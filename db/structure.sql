@@ -47,13 +47,14 @@ CREATE TABLE public.cars (
     id bigint NOT NULL,
     user_id bigint NOT NULL,
     state character varying,
-    status character varying,
+    status character varying DEFAULT 'Available'::character varying,
     price double precision,
     manufacturer character varying,
     model character varying,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    body_type public.body_type
+    body_type public.body_type,
+    deleted_at timestamp(6) without time zone
 );
 
 
@@ -130,7 +131,7 @@ CREATE TABLE public.users (
     last_name character varying,
     password_digest character varying,
     phone_number character varying,
-    is_admin boolean,
+    is_admin boolean DEFAULT false,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
@@ -275,6 +276,9 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20191125120259'),
 ('20191125134413'),
 ('20191126165657'),
-('20191126175342');
+('20191126175342'),
+('20191202180940'),
+('20191205150441'),
+('20191205152329');
 
 

@@ -2,11 +2,9 @@ require 'test_helper'
 
 class CarTest < ActiveSupport::TestCase
   describe Car do
-    before do
-      @user = User.create(first_name: "First", last_name: "User", 
-                      email: "first@user.com", password: "password")
-    end
-    let(:car_params){{ user: @user, state: "used", status: "available", price: 1.5,
+    let(:user){User.create(first_name: "First", last_name: "User", 
+                      email: "first@user.com", password: "password")}
+    let(:car_params){{ user: user, state: "used", status: "available", price: 1.5,
                       manufacturer: "MyString", model: "MyString", body_type: "bus" }}
     let(:car){ Car.new car_params }
 
@@ -14,9 +12,9 @@ class CarTest < ActiveSupport::TestCase
       assert car.valid?
     end
 
-    it "is invalid without price" do
-      car.price = nil
-      refute car.save
+    it "is invalid without a numeric price" do
+      car.price = "string"
+      refute car.valid?
     end
 
     it "is invalid without state and status" do
