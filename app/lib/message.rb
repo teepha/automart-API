@@ -38,4 +38,28 @@ class Message
   def self.expired_token
     'Sorry, your token has expired. Please login to continue.'
   end
+
+  def self.records_not_found
+    "Sorry, there are currently no car ADs"
+  end
+
+  def self.create_success(record = 'record')
+    "#{record} was created successfully"
+  end
+
+  def self.update_success(record = 'record')
+    "#{record} was updated successfully"
+  end
+
+  def self.update_failure
+    'Only cars marked as available, can be updated'
+  end
+
+  def self.delete_success(record = 'record')
+    "#{record} was deleted successfully"
+  end
+
+  def self.delete_failure
+    'Only cars marked as available, can be deleted'
+  end
 end

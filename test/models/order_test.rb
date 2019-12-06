@@ -2,13 +2,11 @@ require 'test_helper'
 
 class OrderTest < ActiveSupport::TestCase
   describe Order do
-    before do
-      @user = User.create(first_name: "First", last_name: "User", 
-                      email: "first@user.com", password: "password")
-      @car = Car.create(user: @user, state: "used", status: "available", price: 1.5,
-                      manufacturer: "MyString", model: "MyString", body_type: "bus")
-    end
-    let(:order){ Order.new({ user: @user, car: @car, amount: 1.5, status: "pending" }) }
+    let(:user){ User.create(first_name: "First", last_name: "User", 
+                          email: "first@user.com", password: "password") }
+    let(:car){ Car.create(user: user, state: "used", status: "available", price: 1.5,
+                      manufacturer: "MyString", model: "MyString", body_type: "bus")}
+    let(:order){ Order.new({ user: user, car: car, amount: 1.5, status: "pending" }) }
 
     it "is invalid without an amount" do
       order.amount = nil
