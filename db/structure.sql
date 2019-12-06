@@ -86,9 +86,10 @@ CREATE TABLE public.orders (
     user_id bigint NOT NULL,
     car_id bigint NOT NULL,
     amount double precision,
-    status character varying,
+    status character varying DEFAULT 'pending'::character varying,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    deleted_at timestamp(6) without time zone
 );
 
 
@@ -279,6 +280,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20191126175342'),
 ('20191202180940'),
 ('20191205150441'),
-('20191205152329');
+('20191205152329'),
+('20191206164621'),
+('20191209073021');
 
 

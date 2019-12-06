@@ -1,5 +1,6 @@
 class Order < ApplicationRecord
-  validates_presence_of :amount, :status
+  validates_presence_of :status
+  validates :amount, numericality: true
 
   belongs_to :user
   belongs_to :car

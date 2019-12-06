@@ -8,13 +8,13 @@ class OrderTest < ActiveSupport::TestCase
                       manufacturer: "MyString", model: "MyString", body_type: "bus")}
     let(:order){ Order.new({ user: user, car: car, amount: 1.5, status: "pending" }) }
 
+    it "is valid with valid parameters" do
+      assert order.valid?
+    end
+
     it "is invalid without an amount" do
       order.amount = nil
       refute order.valid?
-    end
-
-    it "is valid with valid parameters" do
-      assert order.valid?
     end
 
     it 'verifies that order belongs to user' do
