@@ -19,6 +19,8 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'jwt'
 # Use Hirb to view rals console, in tabular form
 gem 'hirb', '~> 0.7.3'
+# Active Record Serializer
+gem 'active_model_serializers', '~> 0.10.0'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'

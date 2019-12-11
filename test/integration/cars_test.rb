@@ -13,7 +13,7 @@ class CarsControllerTest < ActionDispatch::IntegrationTest
     let(:headers2){ token_generator(user2.id) }
     let(:admin_headers){ token_generator(admin.id) }
 
-    let(:invalid_headers){ expired_token_generator(user.id) }
+    let(:expired_headers){ expired_token_generator(user.id) }
     let(:valid_params){{ user: user, state: "new", price: 120000.5, model: "Accord",
                                   manufacturer: "Honda", body_type: "bus" }}
     let(:update_params){{ user: user, state: "new", price: 150000.5, model: "Camry",
@@ -40,7 +40,7 @@ class CarsControllerTest < ActionDispatch::IntegrationTest
 
       it "should return an error if token has expired" do
         post "/cars", params: valid_params,
-          headers: { 'Authorization': invalid_headers }
+          headers: { 'Authorization': expired_headers }
         assert_equal 422, status
         assert_match 'Signature has expired', json_response[:error]
       end
@@ -56,20 +56,20 @@ class CarsControllerTest < ActionDispatch::IntegrationTest
         end
 
         it "returns a car AD" do
-          assert_equal car.id, json_response[:data][:id]
-          assert_equal car.user_id, json_response[:data][:user_id]
+          assert_equal car.id, json_response[:car][:id]
+          assert_equal car.user_id, json_response[:car][:user_id]
         end
       end
 
       describe 'when invalid request' do
         before { get '/cars/1', headers: { 'Authorization': headers } }
 
-        it 'returns an ok status' do
+        it 'returns a not_found status' do
           assert_equal 404, status
         end
 
-        it "returns a car AD" do
-          assert_equal "Couldn't find Car with 'id'=1", json_response[:error]
+        it "returns an error message" do
+          assert_match "Resource not found", json_response[:error]
         end
       end
     end
@@ -115,7 +115,7 @@ class CarsControllerTest < ActionDispatch::IntegrationTest
         end
 
         it 'returns an error message' do
-          assert_match 'Only cars marked as available, can be updated', json_response[:error]
+          assert_match 'Sorry, this car is no longer available', json_response[:error]
         end
       end
     end
@@ -143,7 +143,7 @@ class CarsControllerTest < ActionDispatch::IntegrationTest
         end
 
         it 'returns an error message' do
-          assert_match 'Only cars marked as available, can be deleted', json_response[:error]
+          assert_match 'Sorry, this car is no longer available', json_response[:error]
         end
       end
 
@@ -182,15 +182,28 @@ class CarsControllerTest < ActionDispatch::IntegrationTest
           assert_equal 200, status
         end
 
-        it "returns all cars" do
-          assert_equal 2, json_response[:data].length
+        it "returns all car ADs" do
+          assert_not_empty json_response[:cars]
+          assert_equal 2, json_response[:cars].length
         end
       end
 
-      describe 'when there are no car' do
+      describe 'when valid request for admin' do
+        before { get "/cars", headers: { 'Authorization': admin_headers } }
+
+        it 'returns an ok status' do
+          assert_equal 200, status
+        end
+
+        it "returns all car ADs" do
+          assert_equal 2, json_response[:cars].length
+        end
+      end
+
+      describe 'when there are no car ADs' do
         before do
           get "/cars", headers: { 'Authorization': headers }
-          json_response[:data].clear
+          json_response[:cars].clear
         end
 
         it 'returns an ok status' do
@@ -198,10 +211,9 @@ class CarsControllerTest < ActionDispatch::IntegrationTest
         end
 
         it "returns an empty array" do
-          assert_equal 0, json_response[:data].length
+          assert_equal 0, json_response[:cars].length
         end
       end
     end
-
   end
 end

@@ -3,38 +3,31 @@ class CarsController < ApplicationController
 
   def index
     @cars = Car.where(deleted_at:  nil).order('created_at DESC')
-    return json_response({ data: @cars })
+    return json_response({ cars: @cars }) unless is_admin?
+    render json: @cars, adapter: :json
   end
 
   def create
     @car = current_user.cars.create!(car_params)
-    json_response({
-      message: Message.create_success('Car AD'),
-      data: @car
-    }, :created)
+    json_response({ message: Message.create_success('Car AD'), data: @car }, :created)
   end
 
   def show
-    json_response({ data: @car })
+    return json_response({ car: @car }) unless is_mine?(@car) || is_admin?
+    render json: @car, adapter: :json
   end
 
   def update
     return json_response({ error: Message.unauthorized }, 403) unless is_mine?(@car)
-    return json_response({ error: Message.update_failure }, 422) unless is_available?(@car)
+    return json_response({ error: Message.car_unavailable }, 422) unless check_status?(@car, "Available")
     
     @car.update!(car_params)
-    json_response({
-      message: Message.update_success('Car AD'),
-      data: @car
-    })
+    json_response({ message: Message.update_success('Car AD'), data: @car })
   end
 
   def destroy
-    return json_response({ error: Message.unauthorized }, 403) unless is_mine?(@car) || is_admin?
-    return json_response({ error: Message.delete_failure }, 403) if is_sold?(@car) && !is_admin?
-    @car.update!(deleted_at: Time.now) if is_sold?(@car) && is_admin?
-    @car.destroy if is_available?(@car) && (is_mine?(@car) || is_admin?)
-    json_response({ message: Message.delete_success('Car AD'), data: @car })
+    delete_record(@car, "sold", Message.car_unavailable, 'Car AD')
+    @car.destroy if check_status?(@car, "Available") && (is_mine?(@car) || is_admin?)
   end
 
   private
@@ -44,14 +37,6 @@ class CarsController < ApplicationController
   end
 
   def set_car
-    @car = Car.find(params[:id])
-  end
-
-  def is_available?(car)
-    car[:status] == "Available"
-  end
-
-  def is_sold?(car)
-    car[:status] == "sold"
+    @car = Car.where(deleted_at:  nil).find(params[:id])
   end
 end

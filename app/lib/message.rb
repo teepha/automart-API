@@ -1,8 +1,4 @@
 class Message
-  def self.not_found(record = 'record')
-    "Sorry, #{record} not found."
-  end
-
   def self.invalid_credentials
     'Invalid credentials'
   end
@@ -35,12 +31,8 @@ class Message
     'Account already exists'
   end
 
-  def self.expired_token
-    'Sorry, your token has expired. Please login to continue.'
-  end
-
-  def self.records_not_found
-    "Sorry, there are currently no car ADs"
+  def self.record_not_found
+    "Resource not found"
   end
 
   def self.create_success(record = 'record')
@@ -51,15 +43,15 @@ class Message
     "#{record} was updated successfully"
   end
 
-  def self.update_failure
-    'Only cars marked as available, can be updated'
-  end
-
   def self.delete_success(record = 'record')
     "#{record} was deleted successfully"
   end
 
-  def self.delete_failure
-    'Only cars marked as available, can be deleted'
+  def self.car_unavailable
+    'Sorry, this car is no longer available'
+  end
+
+  def self.order_unavailable
+    'Sorry, this order has been marked as accepted or rejected'
   end
 end
