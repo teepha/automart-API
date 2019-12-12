@@ -78,6 +78,40 @@ ALTER SEQUENCE public.cars_id_seq OWNED BY public.cars.id;
 
 
 --
+-- Name: flags; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.flags (
+    id bigint NOT NULL,
+    car_id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    reason character varying,
+    description character varying,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: flags_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.flags_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: flags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.flags_id_seq OWNED BY public.flags.id;
+
+
+--
 -- Name: orders; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -165,6 +199,13 @@ ALTER TABLE ONLY public.cars ALTER COLUMN id SET DEFAULT nextval('public.cars_id
 
 
 --
+-- Name: flags id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.flags ALTER COLUMN id SET DEFAULT nextval('public.flags_id_seq'::regclass);
+
+
+--
 -- Name: orders id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -192,6 +233,14 @@ ALTER TABLE ONLY public.ar_internal_metadata
 
 ALTER TABLE ONLY public.cars
     ADD CONSTRAINT cars_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: flags flags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.flags
+    ADD CONSTRAINT flags_pkey PRIMARY KEY (id);
 
 
 --
@@ -226,6 +275,20 @@ CREATE INDEX index_cars_on_user_id ON public.cars USING btree (user_id);
 
 
 --
+-- Name: index_flags_on_car_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_flags_on_car_id ON public.flags USING btree (car_id);
+
+
+--
+-- Name: index_flags_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_flags_on_user_id ON public.flags USING btree (user_id);
+
+
+--
 -- Name: index_orders_on_car_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -256,6 +319,22 @@ ALTER TABLE ONLY public.orders
 
 
 --
+-- Name: flags fk_rails_d7842de637; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.flags
+    ADD CONSTRAINT fk_rails_d7842de637 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: flags fk_rails_f45d85ee6b; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.flags
+    ADD CONSTRAINT fk_rails_f45d85ee6b FOREIGN KEY (car_id) REFERENCES public.cars(id);
+
+
+--
 -- Name: orders fk_rails_f868b47f6a; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -282,6 +361,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20191205150441'),
 ('20191205152329'),
 ('20191206164621'),
-('20191209073021');
+('20191209073021'),
+('20191212110527');
 
 
