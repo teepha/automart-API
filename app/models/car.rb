@@ -13,5 +13,6 @@ class Car < ApplicationRecord
   validates_presence_of :model, :manufacturer, :body_type
   
   belongs_to :user
-  has_many :orders
+  has_many :orders, dependent: :destroy
+  has_many :flags, dependent: :destroy
 end
