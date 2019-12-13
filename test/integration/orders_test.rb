@@ -122,11 +122,11 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
       describe 'when invalid request' do
         before { get "/cars/#{car.id}/orders/#{order.id}", headers: { 'Authorization': headers3 } }
 
-        it 'returns an ok status' do
+        it 'returns a forbidden status' do
           assert_response 403
         end
 
-        it "returns an order message" do
+        it "returns an error message" do
           assert_match 'Unauthorized request', json_response[:error]
         end
       end
@@ -183,7 +183,7 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
         end
 
         it "returns the updated order" do
-          assert_equal 110000.0, json_response[:data][:amount]
+          assert_equal update_params[:amount], json_response[:data][:amount]
         end
 
         it 'returns a success message' do

@@ -5,5 +5,6 @@ Rails.application.routes.draw do
   resources :cars do
     resources :orders
     put "/orders/:id/status" => "orders#update_status"
+    resources :flags
   end
 end

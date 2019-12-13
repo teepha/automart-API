@@ -4,7 +4,7 @@ class CarsController < ApplicationController
   def index
     @cars = Car.where(deleted_at:  nil).order('created_at DESC')
     return json_response({ cars: @cars }) unless is_admin?
-    render json: @cars, adapter: :json
+    render json: @cars
   end
 
   def create
@@ -14,7 +14,7 @@ class CarsController < ApplicationController
 
   def show
     return json_response({ car: @car }) unless is_mine?(@car) || is_admin?
-    render json: @car, adapter: :json
+    render json: @car
   end
 
   def update

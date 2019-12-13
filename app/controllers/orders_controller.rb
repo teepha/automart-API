@@ -6,7 +6,7 @@ class OrdersController < ApplicationController
   def index
     return json_response({ error: Message.unauthorized }, 403) unless is_mine?(@car) || is_admin?
     @orders = @car.orders.where(deleted_at: nil).order('amount DESC')
-    return render json: @orders, adapter: :json
+    return render json: @orders
   end
 
   def create
@@ -21,7 +21,7 @@ class OrdersController < ApplicationController
 
   def show
     return json_response({ error: Message.unauthorized }, 403) unless is_mine?(@car) || is_mine?(@order) || is_admin?
-    render json: @order, adapter: :json
+    render json: @order
   end
 
   def update
