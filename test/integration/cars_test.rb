@@ -182,9 +182,22 @@ class CarsControllerTest < ActionDispatch::IntegrationTest
           assert_equal 200, status
         end
 
-        it "returns all car ADs" do
+        it "returns all unsold car ADs" do
           assert_not_empty json_response[:cars]
           assert_equal 2, json_response[:cars].length
+        end
+      end
+
+      describe 'when valid request with valid search parameters' do
+        before { get "/cars", params: { query_params: "honda" }, headers: { 'Authorization': headers } }
+
+        it 'returns an ok status' do
+          assert_equal 200, status
+        end
+
+        it "returns all unsold car ADs that matches the search parameter" do
+          assert json_response[:cars]
+          assert_equal 1, json_response[:cars].length
         end
       end
 
@@ -195,8 +208,10 @@ class CarsControllerTest < ActionDispatch::IntegrationTest
           assert_equal 200, status
         end
 
-        it "returns all car ADs" do
+        it "returns all unsold car ADs with their corresponding orders" do
           assert_equal 2, json_response[:cars].length
+          assert_not_empty json_response[:cars][0][:orders]
+          assert_not_empty json_response[:cars][1][:orders]
         end
       end
 
@@ -212,6 +227,72 @@ class CarsControllerTest < ActionDispatch::IntegrationTest
 
         it "returns an empty array" do
           assert_equal 0, json_response[:cars].length
+        end
+      end
+    end
+
+    describe 'GET #search_by_body_type' do
+      describe 'when valid request with valid search parameters' do
+        before { get "/cars/body_type", params: { query_params: "car" }, headers: { 'Authorization': headers } }
+
+        it 'returns an ok status' do
+          assert_equal 200, status
+        end
+
+        it "returns all unsold car ADs that matches the body_type" do
+          assert_equal "car", json_response[:cars][0][:body_type]
+          assert_equal 1, json_response[:cars].length
+        end
+      end
+
+      describe 'when valid request for admin valid search parameters' do
+        before { get "/cars/body_type", params: { query_params: "minibus" }, headers: { 'Authorization': admin_headers } }
+
+        it 'returns an ok status' do
+          assert_equal 200, status
+        end
+
+        it "returns all unsold car ADs with their corresponding orders" do
+          assert_equal "minibus", json_response[:cars][0][:body_type]
+          assert_equal 1, json_response[:cars].length
+        end
+      end
+
+      describe 'when invalid search parameters' do
+        before { get "/cars/body_type", params: { query_params: "train" }, headers: { 'Authorization': headers } }
+
+        it 'returns a bad request status' do
+          assert_equal 400, status
+        end
+
+        it "returns an error message" do
+          assert_match 'Invalid body type passed', json_response[:error]
+        end
+      end
+    end
+
+    describe 'GET #all_cars' do
+      describe 'when invalid request' do
+        before { get "/all_cars", headers: { 'Authorization': headers } }
+
+        it 'returns a forbidden status' do
+          assert_equal 403, status
+        end
+
+        it 'returns an error message' do
+          assert_match 'Unauthorized request', json_response[:error]
+        end
+      end
+
+      describe 'when valid request for admin' do
+        before { get "/all_cars", headers: { 'Authorization': admin_headers } }
+
+        it 'returns an ok status' do
+          assert_equal 200, status
+        end
+
+        it "returns all car ADs" do
+          assert_equal 3, json_response[:cars].length
         end
       end
     end
