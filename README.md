@@ -77,7 +77,7 @@ $ rails test
 
 ## API endpoints
 
-Base_URL -> localhost:3000
+Base_URL -> ```localhost:3000```
   * Register: 
   ```
   {
@@ -352,11 +352,11 @@ Base_URL -> localhost:3000
   ```
 
 ## Contributing
-1. Fork it: [Fork the Automart-API project](https://github.com/teepha/automart-API/fork)
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+* Fork it: [Fork the Automart-API project](https://github.com/teepha/automart-API/fork)
+* Create your feature branch (`git checkout -b my-new-feature`)
+* Commit your changes (`git commit -am 'Add some feature'`)
+* Push to the branch (`git push origin my-new-feature`)
+* Create a new Pull Request
 
 ## Author
 
