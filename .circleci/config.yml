@@ -1,45 +1,24 @@
-version: 2
+version: 2.1
+orbs:
+  ruby: circleci/ruby@0.1.2 
+
 jobs:
   build:
-    working_directory: ~/automart-API
     docker:
-      - image: circleci/ruby:2.6.0
-        environment:
-          PGHOST: localhost
-          PGUSER: postgres
-          RAILS_ENV: test
-      - image: postgres:9.5
-        environment:
-          POSTGRES_USER: postgres
-          POSTGRES_DB: automart_API_test
-          POSTGRES_PASSWORD: ''
-  steps:
-    - checkout
+      - image: circleci/ruby:2.6.3-stretch-node
+    executor: ruby/default
+    steps:
+      - checkout
+      - run:
+          name: Which bundler?
+          command: bundle -v
+      - ruby/bundle-install
+      # Setup the environment
+      - run: cp application.yml.sample application.yml
 
-    # Restore Cached Dependencies
-    - type: cache-restore
-      name: Restore bundle cache
-      key: your-app-name-{{ checksum "Gemfile.lock" }}
+      # Setup the database
+      - run: rails db:setup
+      # - run: rails db:migrate
 
-    # Bundle install dependencies
-    - run: bundle install --path vendor/bundle
-
-    # Cache Dependencies
-    - type: cache-save
-      name: Store bundle cache
-      key: your-app-name-{{ checksum "Gemfile.lock" }}
-      paths:
-        - vendor/bundle
-
-    # Wait for DB
-    - run: dockerize -wait tcp://localhost:5432 -timeout 1m
-
-    # Setup the environment
-    - run: cp application.yml.sample application.yml
-
-    # Setup the database
-    - run: rails db:setup
-    # - run: rails db:migrate
-
-    # Run the tests
-    - run: rails test
+      # Run the tests
+      - run: rails test
