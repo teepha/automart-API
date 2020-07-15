@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/teepha/automart-API.svg?style=svg)](https://circleci.com/gh/teepha/automart-API)
+
 # AutoMart-API
 ## Introduction
 An online marketplace for automobiles of diverse makes, model or body type. With AutoMart, users can sell their cars or buy from trusted dealerships or private sellers.
