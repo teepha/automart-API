@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/teepha/automart-API.svg?branch=develop)](https://travis-ci.org/teepha/automart-API) [![Coverage Status](https://coveralls.io/repos/github/teepha/automart-API/badge.svg?branch=develop)](https://coveralls.io/github/teepha/automart-API?branch=develop)
+[![Build Status](https://travis-ci.org/teepha/automart-API.svg?branch=develop)](https://travis-ci.org/teepha/automart-API) [![Coverage Status](https://coveralls.io/repos/github/teepha/automart-API/badge.svg?branch=develop)](https://coveralls.io/github/teepha/automart-API?branch=develop) [![Maintainability](https://api.codeclimate.com/v1/badges/56270daaf0e05917fad2/maintainability)](https://codeclimate.com/github/teepha/automart-API/maintainability)
 
 # AutoMart-API
 ## Introduction
