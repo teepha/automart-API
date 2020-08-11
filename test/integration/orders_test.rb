@@ -183,6 +183,7 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
         end
 
         it "returns the updated order" do
+          p ">>>>", update_params[:amount], "====", json_response[:data][:amount]
           assert_equal update_params[:amount], json_response[:data][:amount]
         end
 
