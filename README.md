@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/teepha/automart-API.svg?style=svg)](https://circleci.com/gh/teepha/automart-API)
+[![Build Status](https://travis-ci.org/teepha/automart-API.svg?branch=develop)](https://travis-ci.org/teepha/automart-API)
 
 # AutoMart-API
 ## Introduction

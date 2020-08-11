@@ -183,7 +183,6 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
         end
 
         it "returns the updated order" do
-          p ">>>>", update_params[:amount], "====", json_response[:data][:amount]
           assert_equal update_params[:amount], json_response[:data][:amount]
         end
 
@@ -196,11 +195,11 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
         before { put "/cars/#{car.id}/orders/#{order2.id}", params: update_params,
                           headers: { 'Authorization': headers2 }  }
         
-        it 'return an ok status' do
+        it 'return an unprocessible entity status' do
           assert_response 422
         end
 
-        it 'returns a success message' do
+        it 'returns an error message' do
           assert_match 'Sorry, this order has been marked as accepted or rejected', json_response[:error]
         end
       end
@@ -209,11 +208,11 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
         before { put "/cars/#{car.id}/orders/#{order.id}", params: update_params,
                           headers: { 'Authorization': headers3 }  }
         
-        it 'return an ok status' do
+        it 'return an forbidden status' do
           assert_response 403
         end
 
-        it 'returns a success message' do
+        it 'returns an error message' do
           assert_match 'Unauthorized request', json_response[:error]
         end
       end
@@ -244,11 +243,11 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
         before { put "/cars/#{car.id}/orders/#{order2.id}/status", params: { status: "accepted" },
                           headers: { 'Authorization': headers }  }
         
-        it 'return an ok status' do
+        it 'return an error status' do
           assert_response 422
         end
 
-        it 'returns a success message' do
+        it 'returns an error message' do
           assert_match 'Sorry, this order has been marked as accepted or rejected', json_response[:error]
         end
       end
@@ -257,7 +256,7 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
         before { put "/cars/#{car.id}/orders/#{order.id}/status", params: { status: "accepted" },
                           headers: { 'Authorization': headers2 }  }
         
-        it 'return an ok status' do
+        it 'return an error status' do
           assert_response 403
         end
 
