@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/teepha/automart-API.svg?branch=develop)](https://travis-ci.org/teepha/automart-API)
+[![Build Status](https://travis-ci.org/teepha/automart-API.svg?branch=develop)](https://travis-ci.org/teepha/automart-API)[![Coverage Status](https://coveralls.io/repos/github/teepha/automart-API/badge.svg?branch=develop)](https://coveralls.io/github/teepha/automart-API?branch=develop)
 
 # AutoMart-API
 ## Introduction
